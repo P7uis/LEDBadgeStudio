@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="nl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#171919">
+<title>LED Badge Studio</title>
+<link rel="manifest" href="manifest.webmanifest?v=smiley">
+<link rel="icon" type="image/png" sizes="16x16" href="favicon-smiley.png">
+<link rel="apple-touch-icon" href="icon-smiley-192.png">
+<link rel="stylesheet" href="style.css?v=75">
+<main>
+<header><div><small>USB HID · 0416:5020</small><h1>LED Badge Studio</h1></div><div class="actions header-tools"><button id="connect"><span data-i18n>Badge verbinden</span></button>
+<div class="chrome-stack" >
+        <div class="lang-switcher" role="group" aria-label="Taal" data-i18n-aria-label>
+            <button type="button" class="lang-btn" data-lang="nl" aria-label="Nederlands">
+                <span class="lang-flag" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9 6" width="30" height="20" focusable="false"><path fill="#AE1C28" d="M0 0h9v2H0z"/><path fill="#FFF" d="M0 2h9v2H0z"/><path fill="#21468B" d="M0 4h9v2H0z"/></svg></span>
+            </button>
+            <button type="button" class="lang-btn" data-lang="en" aria-label="English">
+                <span class="lang-flag" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 30" width="30" height="15" focusable="false"><clipPath id="langClipGb"><path d="M0 0h60v30H0z"/></clipPath><path fill="#012169" d="M0 0h60v30H0z"/><path stroke="#FFF" stroke-width="6" d="M0 0l60 30M60 0L0 30" clip-path="url(#langClipGb)"/><path stroke="#C8102E" stroke-width="4" d="M0 0l60 30M60 0L0 30" clip-path="url(#langClipGb)"/><path stroke="#FFF" stroke-width="10" d="M30 0v30M0 15h60" clip-path="url(#langClipGb)"/><path stroke="#C8102E" stroke-width="6" d="M30 0v30M0 15h60" clip-path="url(#langClipGb)"/></svg></span>
+            </button>
+            <button type="button" class="lang-btn" data-lang="de" aria-label="Deutsch">
+                <span class="lang-flag" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 5 3" width="30" height="18" focusable="false"><path fill="#000" d="M0 0h5v1H0z"/><path fill="#D00" d="M0 1h5v1H0z"/><path fill="#FFCE00" d="M0 2h5v1H0z"/></svg></span>
+            </button>
+        </div>
+        <div class="theme-switcher" role="group" aria-label="Thema" data-i18n-aria-label>
+            <button type="button" class="theme-btn" data-theme-pref="light" aria-label="Licht" data-i18n-aria-label aria-pressed="false">
+                <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></span>
+            </button>
+            <button type="button" class="theme-btn" data-theme-pref="auto" aria-label="Automatisch" data-i18n-aria-label aria-pressed="false">
+                <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></span>
+            </button>
+            <button type="button" class="theme-btn" data-theme-pref="dark" aria-label="Donker" data-i18n-aria-label aria-pressed="false">
+                <span aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg></span>
+            </button>
+        </div>
+    </div></div></header>
+<div class="workspace">
+<aside class="sidebar">
+<section class="preview-panel" aria-label="Voorbeeld" data-i18n-aria-label>
+<div class="heading"><h2 id="preview-title">Voorbeeld · Bericht 1</h2><label class="matrix-choice"><span data-i18n>Matrix</span><select id="size"><option value="11">44 × 11</option><option value="12">48 × 12</option></select></label></div>
+<div class="screen"><canvas id="preview" aria-label="Voorbeeld van het geselecteerde bericht" data-i18n-aria-label></canvas></div>
+
+</section>
+<section class="message-panel">
+<h2><span data-i18n>Berichten</span></h2>
+<p><span data-i18n>Vink naast elk slot aan of je het wilt meesturen.</span></p>
+<div id="slots" role="group" aria-label="Kies een bericht" data-i18n-aria-label></div>
+<p id="write-selection"></p>
+</section>
+<footer>
+<div class="memory-bar"><div id="memory" role="status"></div><meter id="memory-meter" min="0" max="8192" value="0" aria-label="Geheugengebruik" data-i18n-aria-label></meter></div>
+<div class="actions"><button id="export"><span data-i18n>Project exporteren</span></button><button id="import"><span data-i18n>Project openen</span></button></div>
+<div class="upload-controls"><label><span data-i18n>Helderheid</span><select id="brightness"><option>25%</option><option>50%</option><option>75%</option><option selected>100%</option></select></label><button id="send" class="primary" disabled><span data-i18n>Naar badge schrijven</span></button></div>
+<input type="file" id="file" accept=".json,application/json" hidden>
+<p id="badge-profile" hidden></p>
+<p id="status" role="status">Badge niet verbonden. De bestaande berichten kunnen niet via deze app worden uitgelezen.</p>
+</footer>
+</aside>
+<section class="editor-panel">
+<label><span data-i18n>Editormodus</span><select id="editor-mode"><option value="regular" data-i18n>Regulier · 8 berichten</option><option value="custom" data-i18n>Custom · één ontwerp</option></select></label>
+<p id="custom-note" hidden data-i18n>Custom bewaart één apart ontwerp. Eigen animatie-effecten volgen later.</p>
+<div class="actions"><button id="undo"><span data-i18n>Ongedaan maken</span></button><button id="redo"><span data-i18n>Opnieuw</span></button><button id="cycle"><span data-i18n>Cyclus starten</span></button></div>
+
+<nav class="tool-launcher"><button id="text-settings-button" data-tool="tool-text" hidden>Tekstinstellingen</button><button data-tool="tool-local-fonts" data-i18n>Eigen lettertype</button><button data-tool="tool-icons" data-i18n>Iconen</button><button data-tool="tool-help" data-i18n>Hulp</button><button data-tool="tool-0"><span data-i18n>Projectbibliotheek</span></button><button data-tool="tool-1"><span data-i18n>Bericht kopiëren en volgorde</span></button><button data-tool="tool-2"><span data-i18n>Afbeelding invoegen</span></button><button data-tool="tool-3"><span data-i18n>Positioneren en spiegelen</span></button></nav>
+<h2 id="slot-title">Bericht 1</h2>
+<div class="text-settings"><label><span data-i18n>Tekst</span><input id="message" maxlength="480" placeholder="Typ een bericht" data-i18n-placeholder></label>
+<label><span data-i18n>Lettertype</span><select id="font"><optgroup label="X11 Misc Fixed"><option value="4x6">X11 Misc Fixed 4 × 6</option><option value="5x7">X11 Misc Fixed 5 × 7</option><option value="5x8">X11 Misc Fixed 5 × 8</option><option value="6x10">X11 Misc Fixed 6 × 10</option><option value="6x9">X11 Misc Fixed 6 × 9</option></optgroup><optgroup label="U8g2 Squeezed"><option value="u8g2_squeezed_regular_6">U8g2 Squeezed Regular 6 px</option><option value="u8g2_squeezed_bold_6">U8g2 Squeezed Bold 6 px</option><option value="u8g2_squeezed_regular_7">U8g2 Squeezed Regular 7 px</option><option value="u8g2_squeezed_bold_7">U8g2 Squeezed Bold 7 px</option></optgroup><optgroup label="X11 Courier"><option value="courR08">X11 Courier Regular</option><option value="courB08">X11 Courier Bold</option></optgroup><optgroup label="X11 Helvetica"><option value="helvR08">X11 Helvetica Regular</option><option value="helvB08">X11 Helvetica Bold</option></optgroup><optgroup label="X11 Times"><option value="timR08">X11 Times Regular</option><option value="timB08">X11 Times Bold</option></optgroup><optgroup label="ProFont"><option value="profont10">ProFont 10</option><option value="profont11">ProFont 11</option><option value="profont12">ProFont 12</option></optgroup><optgroup label="Terminus"><option value="t0-11-uni">Terminus 11 Regular</option><option value="t0-11b-uni">Terminus 11 Bold</option></optgroup><optgroup label="Spleen"><option value="spleen-5x8">Spleen 5 × 8</option></optgroup><optgroup label="Micro / Tom Thumb / Tiny5"><option value="micro">Micro 3 × 5</option><option value="tom-thumb">Tom Thumb 4 × 6</option><option value="Tiny5">Tiny5</option><option value="Tiny5Duo">Tiny5 Duo</option><option value="ncenR08">New Century Schoolbook Regular 8</option><option value="ncenB08">New Century Schoolbook Bold 8</option></optgroup></select></label>
+</div>
+<p id="font-warning" role="status" hidden></p>
+<h2><span data-i18n>Led-raster</span></h2>
+<label><span data-i18n>Tekengereedschap</span><select id="paint-tool"><option value="toggle" data-i18n>Omschakelen</option><option value="draw" data-i18n>Tekenen</option><option value="erase" data-i18n>Gummen</option></select></label>
+<div class="pixel-scroll"><canvas id="pixels" tabindex="0" aria-label="Led-raster. Gebruik de pijltjes en spatie om leds te bewerken." data-i18n-aria-label></canvas></div>
+<button id="reset-pixels"><span data-i18n>Led-aanpassingen wissen</span></button>
+<button id="clear-message"><span data-i18n>Bericht leegmaken</span></button>
+<div class="settings">
+<label><span data-i18n>Effect</span><select id="mode"><option value="0" data-i18n>Naar links</option><option value="1" data-i18n>Naar rechts</option><option value="4" data-i18n>Stilstaand</option><option value="2" data-i18n>Omhoog</option><option value="3" data-i18n>Omlaag</option><option value="6" data-i18n>Sneeuw</option><option value="7" data-i18n>Gordijn</option><option value="8">Laser</option></select></label>
+<label><span data-i18n>Snelheid</span><select id="speed"></select></label>
+</div>
+<div class="checks"><label><input type="checkbox" id="blink"> <span data-i18n>Knipperen</span></label><label><input type="checkbox" id="border"> <span data-i18n>Lopende rand</span></label></div>
+</section>
+</div>
+
+<footer class="site-footer">
+      <div class="wrap">
+        <span>© <span id="copyright-year">2026</span> <a href="https://p7uis.nl/">@p7uis</a></span>
+        <a id="footer-donate" data-i18n href="https://www.paypal.com/donate/?hosted_button_id=G2FTMLXRMUDJG" target="_blank" rel="noopener noreferrer">Doneren</a>
+        <span><span class="footer-powered-label" data-i18n>Powered by</span> <a class="footer-brand" href="https://everything3d.nl/">Everything3D.nl</a></span>
+      </div>
+    </footer>
+</main>
+<dialog class="tool-dialog" id="tool-0"><div class="heading"><h2><span data-i18n>Projectbibliotheek</span></h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><div class="actions">
+<input id="project-name" aria-label="Projectnaam" data-i18n-aria-label placeholder="Projectnaam" data-i18n-placeholder>
+<button id="library-save"><span data-i18n>Bewaren als project</span></button>
+<select id="library" aria-label="Bewaarde projecten" data-i18n-aria-label></select>
+<button id="library-open"><span data-i18n>Openen</span></button><button id="library-delete"><span data-i18n>Verwijderen</span></button>
+</div></dialog><dialog class="tool-dialog" id="tool-1"><div class="heading"><h2><span data-i18n>Bericht kopiëren en volgorde</span></h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><div class="actions">
+<label><span data-i18n>Doelslot</span><select id="destination"></select></label>
+<button id="duplicate"><span data-i18n>Dupliceren</span></button><button id="move"><span data-i18n>Verplaatsen</span></button>
+</div></dialog><dialog class="tool-dialog" id="tool-2"><div class="heading"><h2><span data-i18n>Afbeelding invoegen</span></h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div>
+<input type="file" id="image-file" accept="image/*">
+<div class="actions">
+<label><span data-i18n>Uitsnijden</span><select id="image-fit"><option value="contain" data-i18n>Hele afbeelding</option><option value="cover" data-i18n>Vullen en uitsnijden</option></select></label>
+<label><span data-i18n>Zwart-witdrempel</span><input id="image-threshold" type="range" min="0" max="255" value="128"></label>
+<label><input type="checkbox" id="image-invert"> <span data-i18n>Omkeren</span></label>
+<button id="image-apply" disabled><span data-i18n>Afbeelding toepassen</span></button></div>
+<canvas id="image-preview" aria-label="Afbeeldingvoorbeeld" data-i18n-aria-label hidden></canvas>
+</dialog><dialog class="tool-dialog" id="tool-3"><div class="heading"><h2><span data-i18n>Positioneren en spiegelen</span></h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><div class="actions">
+<div class="alignment-row"><button data-align="left"><span data-i18n>Links</span></button><button data-align="center"><span data-i18n>Horizontaal midden</span></button><button data-align="right"><span data-i18n>Rechts</span></button></div>
+<div class="alignment-row"><button data-align="top"><span data-i18n>Boven</span></button><button data-align="middle"><span data-i18n>Verticaal midden</span></button><button data-align="bottom"><span data-i18n>Onder</span></button></div>
+<button id="mirror"><span data-i18n>Horizontaal spiegelen</span></button>
+<button data-shift="-1,0">←</button><button data-shift="1,0">→</button><button data-shift="0,-1">↑</button><button data-shift="0,1">↓</button>
+</div></dialog><dialog class="tool-dialog" id="tool-help"><div class="heading"><h2 data-i18n>Hulp</h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><p><span data-i18n>Klik op een led om hem om te schakelen. Bij lange tekst kun je horizontaal scrollen. Wijzigingen in tekst, lettertype, effect of matrixformaat wissen de bijbehorende led-aanpassingen.</span></p>
+<p><span data-i18n>Kies een icoon bij Bewerken en sleep het in het raster. Kies Losse leds om afzonderlijke pixels te wijzigen.</span></p>
+</dialog>
+<dialog class="tool-dialog" id="tool-icons"><div class="heading"><h2 data-i18n>Iconen</h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><div class="actions icon-tools">
+<label><span data-i18n>Icoon</span><select id="icon-kind"><option value="heart" data-i18n>Hart</option><option value="star" data-i18n>Ster</option><option value="smile">Smiley</option><option value="arrow" data-i18n>Pijl</option><option value="check" data-i18n>Vinkje</option></select></label>
+<button id="add-icon"><span data-i18n>Icoon invoegen</span></button>
+<label><span data-i18n>Bewerken</span><select id="icon-target"><option value="" data-i18n>Losse leds</option></select></label>
+<label><span data-i18n>Maat (pixels)</span><input id="icon-size" type="number" min="5" max="11" value="7"></label>
+<label hidden><span data-i18n>Richting</span><select id="icon-direction"><option value="0" data-i18n>Rechts</option><option value="5" data-i18n>Rechtsonder</option><option value="1" data-i18n>Omlaag</option><option value="6" data-i18n>Linksonder</option><option value="2" data-i18n>Links</option><option value="7" data-i18n>Linksboven</option><option value="3" data-i18n>Omhoog</option><option value="4" data-i18n>Rechtsboven</option></select></label>
+<label hidden><span data-i18n>Uitdrukking</span><select id="icon-expression"><option value="smile" data-i18n>Blij</option><option value="sad" data-i18n>Verdrietig</option><option value="angry" data-i18n>Boos</option><option value="upside" data-i18n>Ondersteboven</option></select></label>
+<button id="remove-icon"><span data-i18n>Icoon verwijderen</span></button>
+</div>
+</dialog>
+<dialog class="tool-dialog" id="tool-text"><div class="heading"><h2 data-i18n>Tekstinstellingen</h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div><div id="system-rendering" class="actions">
+<label><span data-i18n>Tekstgrootte (px)</span><select id="text-size"><option value="0" data-i18n>Automatisch passend</option><option value="4">4 px</option><option value="5">5 px</option><option value="6">6 px</option><option value="7">7 px</option><option value="8">8 px</option><option value="9">9 px</option><option value="10">10 px</option><option value="11">11 px</option><option value="12">12 px</option></select></label>
+<label><span data-i18n>Lijndikte</span><input id="text-threshold" type="range" min="45" max="65" value="38"></label>
+<output id="text-size-info"></output>
+</div>
+<p id="system-font-availability" hidden></p>
+<p data-i18n>Gebruik bij voorkeur automatisch passend. Onder 8 px verliezen systeemlettertypes veel detail.</p>
+<p id="system-font-note" hidden data-i18n>Systeemlettertypes gebruiken de fonts op je computer. Bij ontbreken gebruikt de browser een vervangend font. De gemaakte pixels worden in je project bewaard.</p>
+</dialog>
+<dialog class="tool-dialog" id="tool-local-fonts"><div class="heading"><h2 data-i18n>Eigen lettertypes</h2><button data-close-tool aria-label="Sluiten" data-i18n-aria-label>×</button></div>
+<p data-i18n>Gebruik een lettertype dat op jouw computer staat. Alleen de naam en de gemaakte pixels worden bewaard; fontbestanden worden niet geüpload.</p>
+<button id="scan-local-fonts" data-i18n>Lettertypes van computer ophalen</button>
+<label><span data-i18n>Naam van lettertype</span><input id="local-font-name" list="local-font-list" maxlength="96" autocomplete="off" placeholder="Bijvoorbeeld Avenir" data-i18n-placeholder></label><datalist id="local-font-list"></datalist>
+<p id="local-font-status" role="status"></p>
+<button id="add-local-font" class="primary" data-i18n>Lettertype gebruiken</button>
+</dialog>
+<dialog id="confirmation" aria-labelledby="confirmation-message">
+<p id="confirmation-message"></p>
+<div class="actions"><button id="confirmation-cancel">Annuleren</button><button id="confirmation-accept" class="primary">Doorgaan</button></div>
+</dialog>
+<script type="module" src="app.mjs?v=75"></script>
+</html>
